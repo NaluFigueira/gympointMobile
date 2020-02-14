@@ -54,6 +54,9 @@
     "prettier": "^1.19.1",
     "react-test-renderer": "16.9.0"
   },
+  "resolutions": {
+    "@react-native-community/cli-platform-android": "2.9.0"
+  },
   "jest": {
     "preset": "react-native"
   }

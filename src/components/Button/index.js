@@ -1,8 +1,16 @@
 import React from 'react';
-import { View } from 'react-native';
+import PropTypes from 'prop-types';
 
-// import { Container } from './styles';
+import { TButton, ButtonText } from './styles';
 
-export default function Button() {
-  return <View />;
+export default function Button({ text }) {
+  return (
+    <TButton>
+      <ButtonText>{text}</ButtonText>
+    </TButton>
+  );
 }
+
+Button.propTypes = {
+  text: PropTypes.string.isRequired,
+};

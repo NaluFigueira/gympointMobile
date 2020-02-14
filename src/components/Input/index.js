@@ -1,8 +1,9 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { forwardRef } from 'react';
 
-// import { Container } from './styles';
+import { TInput } from './styles';
 
-export default function Input() {
-  return <View />;
+function Input({ ...rest }, ref) {
+  return <TInput {...rest} ref={ref} />;
 }
+
+export default forwardRef(Input);
