@@ -12,7 +12,7 @@ export const HelpOrderCardList = styled(FlatList)`
   margin-top: 5%;
 `;
 
-export const HelpOrderCard = styled.View`
+export const HelpOrderCard = styled.TouchableHighlight`
   padding: 10px 15px;
   border: 2px solid #ddd;
   border-radius: 4px;

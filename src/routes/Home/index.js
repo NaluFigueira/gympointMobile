@@ -2,8 +2,8 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import Checkins from '~/pages/Checkins';
-import HelpOrders from '~/pages/HelpOrders';
+import CheckinHome from '~/routes/CheckinHome';
+import HelpOrderHome from '~/routes/HelpOrderHome';
 
 export default function Home() {
   const Tab = createBottomTabNavigator();
@@ -37,8 +37,8 @@ export default function Home() {
           borderTopWidth: 1,
         },
       }}>
-      <Tab.Screen name="Check-ins" component={Checkins} />
-      <Tab.Screen name="Pedir ajuda" component={HelpOrders} />
+      <Tab.Screen name="Check-ins" component={CheckinHome} />
+      <Tab.Screen name="Pedir ajuda" component={HelpOrderHome} />
     </Tab.Navigator>
   );
 }

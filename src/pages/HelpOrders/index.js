@@ -18,7 +18,7 @@ import {
   HelpOrderQuestion,
 } from './styles';
 
-export default function HelpOrders() {
+export default function HelpOrders({ navigation }) {
   const [checkins, setCheckIns] = useState([
     {
       id: 3,
@@ -60,22 +60,31 @@ export default function HelpOrders() {
 
   const renderItem = ({ item }) => {
     return (
-      <HelpOrderCard>
-        <HelpOrderInfo>
-          <HelpOrderStatusContainer>
-            <Icon
-              name={item.answer ? 'check' : 'sms'}
-              size={20}
-              style={{ marginRight: 10 }}
-              color={item.answer ? '#42CB59' : '#666'}
-            />
-            <HelpOrderStatus>
-              {item.answer ? 'Respondido' : 'Sem Resposta'}
-            </HelpOrderStatus>
-          </HelpOrderStatusContainer>
-          <HelpOrderDate>{item.createdAt}</HelpOrderDate>
-        </HelpOrderInfo>
-        <HelpOrderQuestion>{item.question}</HelpOrderQuestion>
+      <HelpOrderCard
+        onPress={() =>
+          navigation.navigate('Answers', {
+            date: item.createdAt,
+            question: item.question,
+            answer: item.answer,
+          })
+        }>
+        <>
+          <HelpOrderInfo>
+            <HelpOrderStatusContainer>
+              <Icon
+                name={item.answer ? 'check' : 'sms'}
+                size={20}
+                style={{ marginRight: 10 }}
+                color={item.answer ? '#42CB59' : '#666'}
+              />
+              <HelpOrderStatus>
+                {item.answer ? 'Respondido' : 'Sem Resposta'}
+              </HelpOrderStatus>
+            </HelpOrderStatusContainer>
+            <HelpOrderDate>{item.createdAt}</HelpOrderDate>
+          </HelpOrderInfo>
+          <HelpOrderQuestion>{item.question}</HelpOrderQuestion>
+        </>
       </HelpOrderCard>
     );
   };
