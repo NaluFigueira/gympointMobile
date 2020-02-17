@@ -1,8 +1,14 @@
 import React from 'react';
-import { View } from 'react-native';
 
-// import { Container } from './styles';
+import Button from '~/components/Button';
+
+import { Container, HelpOrderInput } from './styles';
 
 export default function NewHelpOrder() {
-  return <View />;
+  return (
+    <Container>
+      <HelpOrderInput placeholder="Inclua seu pedido de auxílio" />
+      <Button text="Enviar pedido" />
+    </Container>
+  );
 }

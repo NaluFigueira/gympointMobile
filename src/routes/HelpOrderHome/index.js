@@ -18,7 +18,7 @@ export default function HelpOrdersHome() {
       }}>
       <HelpOrderStack.Screen name="HelpOrders" component={HelpOrders} />
       <HelpOrderStack.Screen name="Answers" component={Answers} />
-      <HelpOrderStack.Screen name="NewHelpOrder " component={NewHelpOrder} />
+      <HelpOrderStack.Screen name="NewHelpOrder" component={NewHelpOrder} />
     </HelpOrderStack.Navigator>
   );
 }

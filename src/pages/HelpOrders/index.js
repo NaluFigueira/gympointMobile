@@ -91,7 +91,10 @@ export default function HelpOrders({ navigation }) {
 
   return (
     <Container>
-      <Button text="Novo pedido de auxílio" />
+      <Button
+        text="Novo pedido de auxílio"
+        onPress={() => navigation.navigate('NewHelpOrder')}
+      />
       <HelpOrderCardList
         data={checkins}
         renderItem={renderItem}
