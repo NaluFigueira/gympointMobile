@@ -118,4 +118,7 @@ HelpOrders.propTypes = {
     createdAt: PropTypes.string,
     updatedAt: PropTypes.string,
   }),
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
 };

@@ -11,7 +11,7 @@ import {
   DetailsText,
 } from './styles';
 
-export default function Answers({ route, navigation }) {
+export default function Answers({ route }) {
   const { date } = route.params;
   const { question } = route.params;
   const { answer } = route.params;
@@ -35,4 +35,12 @@ export default function Answers({ route, navigation }) {
   );
 }
 
-Answers.propTypes = {};
+Answers.propTypes = {
+  route: PropTypes.shape({
+    params: PropTypes.shape({
+      date: PropTypes.string.isRequired,
+      question: PropTypes.string.isRequired,
+      answer: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+};
