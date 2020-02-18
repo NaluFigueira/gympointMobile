@@ -1,10 +1,14 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
+import { Alert } from 'react-native';
 
 import PropTypes from 'prop-types';
 
+import { useSelector } from 'react-redux';
+
 import { formatRelative, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+
+import api from '~/services/api';
 
 import Button from '~/components/Button';
 import {
@@ -16,24 +20,8 @@ import {
 } from './styles';
 
 export default function Checkins() {
-  const [checkins, setCheckIns] = useState([
-    {
-      id: 6,
-      createdAt: '2020-02-13T20:21:09.224Z',
-    },
-    {
-      id: 7,
-      createdAt: '2020-02-07T20:21:13.269Z',
-    },
-    {
-      id: 8,
-      createdAt: '2020-01-13T20:21:16.533Z',
-    },
-    {
-      id: 9,
-      createdAt: '2019-12-29T20:21:18.689Z',
-    },
-  ]);
+  const id = useSelector(state => state.auth.id);
+  const [checkins, setCheckIns] = useState([]);
 
   function formatCheckinDate(checkinDate) {
     let formattedDate = checkinDate.split('.');
@@ -45,12 +33,24 @@ export default function Checkins() {
   }
 
   useEffect(() => {
-    setCheckIns(
-      checkins.map(checkin => {
-        return { ...checkin, createdAt: formatCheckinDate(checkin.createdAt) };
-      }),
-    );
-  }, []);
+    async function getCheckins() {
+      try {
+        const response = await api.get(`students/${id}/checkins`);
+        const data = response.data.map(checkin => {
+          return {
+            ...checkin,
+            createdAt: formatCheckinDate(checkin.createdAt),
+          };
+        });
+        setCheckIns(data);
+      } catch (error) {
+        console.tron.log(error);
+        Alert.alert('Erro', 'Ocorreu um erro ao recuperar os check-ins!');
+      }
+    }
+
+    getCheckins();
+  }, [id]);
 
   const renderItem = ({ item }) => {
     return (
@@ -61,10 +61,28 @@ export default function Checkins() {
     );
   };
 
+  async function createCheckin() {
+    try {
+      await api.post(`students/${id}/checkins`);
+      const response = await api.get(`students/${id}/checkins`);
+      const data = response.data.map(checkin => {
+        return {
+          ...checkin,
+          createdAt: formatCheckinDate(checkin.createdAt),
+        };
+      });
+      setCheckIns(data);
+    } catch (error) {
+      console.tron.log(error);
+      Alert.alert('Erro', 'Ocorreu um erro ao realizar check-in!');
+    }
+  }
+
   return (
     <Container>
-      <Button text="Novo check-in" />
+      <Button text="Novo check-in" onPress={() => createCheckin()} />
       <CheckInCardList
+        extraData={checkins}
         data={checkins}
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}

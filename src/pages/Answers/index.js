@@ -40,7 +40,7 @@ Answers.propTypes = {
     params: PropTypes.shape({
       date: PropTypes.string.isRequired,
       question: PropTypes.string.isRequired,
-      answer: PropTypes.string.isRequired,
+      answer: PropTypes.string,
     }).isRequired,
   }).isRequired,
 };

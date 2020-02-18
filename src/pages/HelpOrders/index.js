@@ -1,10 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
+import { Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { formatRelative, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+
+import api from '~/services/api';
 
 import Button from '~/components/Button';
 import {
@@ -19,29 +23,10 @@ import {
 } from './styles';
 
 export default function HelpOrders({ navigation }) {
-  const [checkins, setCheckIns] = useState([
-    {
-      id: 3,
-      student_id: 4,
-      question:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      answer: 'Resposta',
-      answer_at: '2019-12-29T20:29:11.303Z',
-      createdAt: '2019-12-29T20:26:53.083Z',
-      updatedAt: '2019-12-29T20:29:11.304Z',
-    },
-    {
-      id: 4,
-      student_id: 4,
-      question: 'Deve fazer alguma dieta?',
-      answer: null,
-      answer_at: '2019-12-29T20:29:11.303Z',
-      createdAt: '2019-12-29T20:26:53.083Z',
-      updatedAt: '2019-12-29T20:29:11.304Z',
-    },
-  ]);
+  const id = useSelector(state => state.auth.id);
+  const [helpOrders, setHelpOrders] = useState([]);
 
-  function formatCheckinDate(checkinDate) {
+  function formatHelpOrderDate(checkinDate) {
     let formattedDate = checkinDate.split('.');
     formattedDate = formattedDate[0].replace('T', ' ');
     formattedDate = formatRelative(parseISO(formattedDate), new Date(), {
@@ -51,11 +36,26 @@ export default function HelpOrders({ navigation }) {
   }
 
   useEffect(() => {
-    setCheckIns(
-      checkins.map(checkin => {
-        return { ...checkin, createdAt: formatCheckinDate(checkin.createdAt) };
-      }),
-    );
+    async function getHelpOrders() {
+      try {
+        const response = await api.get(`students/${id}/help-orders`);
+        const data = response.data.map(helpOrder => {
+          return {
+            ...helpOrder,
+            createdAt: formatHelpOrderDate(helpOrder.createdAt),
+          };
+        });
+        setHelpOrders(data);
+      } catch (error) {
+        console.tron.log(error);
+        Alert.alert(
+          'Erro',
+          'Ocorreu um erro ao recuperar os pedidos de auxílio!',
+        );
+      }
+    }
+
+    getHelpOrders();
   }, []);
 
   const renderItem = ({ item }) => {
@@ -96,7 +96,7 @@ export default function HelpOrders({ navigation }) {
         onPress={() => navigation.navigate('NewHelpOrder')}
       />
       <HelpOrderCardList
-        data={checkins}
+        data={helpOrders}
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
       />
